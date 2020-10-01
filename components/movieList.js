@@ -4,7 +4,7 @@ import MovieCard from "./movieCard";
 
 export default function MovieList({ text }) {
   const [movieList, setMovieList] = useState([]);
-  if (text == "null") {
+  if (text == "") {
     fetch(
       "https://api.themoviedb.org/3/movie/now_playing?api_key=ead8068ec023b7d01ad25d135bf8f620&language=en-US&page=1"
     )

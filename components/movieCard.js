@@ -6,7 +6,7 @@ export default function MovieCard({ item }) {
   return (
     <Card>
       <Card.Image
-        source={"https://image.tmdb.org/t/p/w200/" + item.poster_path}
+        source={{uri: "https://image.tmdb.org/t/p/w200/" + item.poster_path}}
       />
       <Card.Title>{item.original_title}</Card.Title>
       <Card.Divider />
@@ -14,3 +14,6 @@ export default function MovieCard({ item }) {
     </Card>
   );
 }
+<Image 
+source={{uri: 'https://reactnative.dev/docs/assets/p_cat2.png'}}
+/>

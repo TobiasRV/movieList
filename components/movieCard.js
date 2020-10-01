@@ -9,6 +9,8 @@ export default function MovieCard({ item }) {
         source={"https://image.tmdb.org/t/p/w200/" + item.poster_path}
       />
       <Card.Title>{item.original_title}</Card.Title>
+      <Card.Divider />
+      <Text>{item.overview}</Text>
     </Card>
   );
 }

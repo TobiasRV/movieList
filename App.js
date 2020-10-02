@@ -1,36 +1,65 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, TextInput, Button } from "react-native";
-import MovieList from "./components/movieList";
+import {
+  StyleSheet,
+  StatusBar,
+  Image,
+  View,
+  Platform,
+  TextInput,
+} from "react-native";
+import { Container, Content, Icon, Input, Item } from "native-base";
+import MovieList from "./app/components/MovieList";
 
 export default function App() {
   const [value, setValue] = useState("");
-  //const [movie, setMovie] = useState("null");
   return (
-    <View style={styles.container}>
-      <Text>Movie List</Text>
-      <TextInput
-        style={styles.textInput}
-        placeholder="Search movie"
-        onChangeText={(text) => setValue(text)}
-      />
-      {/* <Button onPress={() => setMovie(value)} title="Search"/> */}
-      <MovieList text={value} style={styles.movieList}/>
-    </View>
+    <Container>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Image
+            style={styles.headerImage}
+            source={require("./app/assets/header-image.png")}
+          />
+        </View>
+        <Content>
+          <Item style={styles.textInput}>
+            <Image
+              style={{ width: 40, height: 40, marginRight: 10 }}
+              source={require("./app/assets/claqueta.png")}
+            />
+            <TextInput
+              style={{ fontSize: 20 }}
+              placeholder="Search Movie"
+              onChangeText={(text) => setValue(text)}
+            />
+          </Item>
+          <MovieList text={value} />
+        </Content>
+      </View>
+    </Container>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+  },
+  header: {
+    flex: 0.1,
+    backgroundColor: "#FFFFFF",
+  },
+  headerImage: {
+    flex: 1,
+    width: "50%",
+    height: "50%",
+    marginLeft: "25%",
   },
   textInput: {
-    borderWidth: 1,
-    borderColor: "#777",
-    padding: 8,
-    margin: 10,
-    width: 200,
-  }
+    flex: 1,
+    marginRight: "10%",
+    marginLeft: "10%",
+    marginBottom: "5%",
+    marginTop: "5%",
+  },
 });

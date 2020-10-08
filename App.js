@@ -1,65 +1,60 @@
 import React, { useState } from "react";
 import {
   StyleSheet,
-  StatusBar,
+  ScrollView,
   Image,
-  View,
+  StatusBar,
   Platform,
-  TextInput,
+  View,
+  SafeAreaView,
 } from "react-native";
-import { Container, Content, Icon, Input, Item } from "native-base";
+import { Input } from "react-native-elements";
 import MovieList from "./app/components/MovieList";
 
 export default function App() {
   const [value, setValue] = useState("");
+  let searchWaiting = 0;
   return (
-    <Container>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Image
-            style={styles.headerImage}
-            source={require("./app/assets/header-image.png")}
+    <SafeAreaView style={styles.container}>
+      <Image
+        style={{ width: 300, height: 80 }}
+        source={require("./app/assets/header-image.png")}
+      />
+      <ScrollView style={{ width: "100%", height: "100%", marginBottom: 20 }}>
+        <View style={{ paddingLeft: 30, paddingRight: 30 }}>
+          <Input
+            placeholder="Search Movie"
+            leftIcon={{ type: "font-awesome", name: "film" }}
+            inputStyle={{ marginLeft: 10 }}
+            onChangeText={(text) => {
+              if (searchWaiting) clearTimeout(searchWaiting);
+              searchWaiting = setTimeout(() => {
+                searchWaiting = null;
+                setValue(text);
+              }, 1000);
+            }}
           />
         </View>
-        <Content>
-          <Item style={styles.textInput}>
-            <Image
-              style={{ width: 40, height: 40, marginRight: 10 }}
-              source={require("./app/assets/claqueta.png")}
-            />
-            <TextInput
-              style={{ fontSize: 20 }}
-              placeholder="Search Movie"
-              onChangeText={(text) => setValue(text)}
-            />
-          </Item>
-          <MovieList text={value} />
-        </Content>
-      </View>
-    </Container>
+        <MovieList text={value} />
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    alignItems: "center",
+    ...Platform.select({
+      ios: {},
+      android: {
+        paddingTop: StatusBar.currentHeight,
+      },
+      default: {
+        marginRight: "20%",
+        marginLeft: "20%",
+      },
+    }),
   },
-  header: {
-    flex: 0.1,
-    backgroundColor: "#FFFFFF",
-  },
-  headerImage: {
-    flex: 1,
-    width: "50%",
-    height: "50%",
-    marginLeft: "25%",
-  },
-  textInput: {
-    flex: 1,
-    marginRight: "10%",
-    marginLeft: "10%",
-    marginBottom: "5%",
-    marginTop: "5%",
-  },
+  textInput: {},
 });

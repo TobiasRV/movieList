@@ -7,7 +7,6 @@ import {
   Platform,
   View,
   SafeAreaView,
-  Button,
 } from "react-native";
 import { Input } from "react-native-elements";
 import MovieList from "./components/movieList";

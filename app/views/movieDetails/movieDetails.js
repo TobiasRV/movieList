@@ -1,9 +1,18 @@
+import { NavigationContainer } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { Text, StyleSheet, StatusBar, SafeAreaView, Image} from "react-native";
+import {
+  Text,
+  StyleSheet,
+  StatusBar,
+  SafeAreaView,
+  Image,
+  Platform,
+  Button,
+} from "react-native";
 import { Card } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 
-export default function MovieDetails({ route }) {
+export default function MovieDetails({ route, navigation }) {
   const movieId = route.params.movieId;
 
   const [movie, setMovie] = useState([]);
@@ -19,6 +28,14 @@ export default function MovieDetails({ route }) {
   }, [movieId]);
 
   const genresArray = movie.genres || [];
+
+  function renderButton() {
+    if (Platform.OS === "web")
+      return (
+        <Button title={"Go Back"} onPress={() => navigation.goBack()}></Button>
+      );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Image
@@ -78,6 +95,8 @@ export default function MovieDetails({ route }) {
             <Text style={styles.bold}>Rating: </Text>
             <Text>{movie.vote_average + "\n"}</Text>
           </Text>
+
+          {renderButton()}
         </Card>
       </ScrollView>
     </SafeAreaView>

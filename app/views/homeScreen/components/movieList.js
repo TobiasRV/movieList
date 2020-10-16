@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Text, StyleSheet, Platform } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  Platform,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { Card } from "react-native-elements";
 
-export default function MovieList({ text }) {
+export default function MovieList({ text, navigation }) {
   const [movieList, setMovieList] = useState([]);
   useEffect(() => {
     if (text == "") {
@@ -34,28 +39,36 @@ export default function MovieList({ text }) {
   if (movieList != undefined) {
     movieList.forEach((movie) => {
       cardList.push(
-        <Card key={movie.id}>
-          <Card.Title style={styles.text}>{movie.original_title}</Card.Title>
-          <Card.Image
-            source={
-              movie.backdrop_path == null
-                ? require("../assets/image-not-found.png")
-                : Platform.OS === "web"
-                ? {
-                    uri:
-                      "https://image.tmdb.org/t/p/original/" +
-                      movie.backdrop_path,
-                  }
-                : {
-                    uri:
-                      "https://image.tmdb.org/t/p/w780/" + movie.backdrop_path,
-                  }
-            }
-            style={styles.image}
-          />
-          <Card.Divider style={{ marginTop: 20 }} />
-          <Text style={styles.text}>{movie.overview}</Text>
-        </Card>
+        <TouchableWithoutFeedback
+          key={movie.id}
+          onPress={() => {
+            navigation.navigate("MovieDetails", { movieId: movie.id });
+          }}
+        >
+          <Card>
+            <Card.Title style={styles.text}>{movie.original_title}</Card.Title>
+            <Card.Image
+              source={
+                movie.backdrop_path == null
+                  ? require("../../../assets/image-not-found.png")
+                  : Platform.OS === "web"
+                  ? {
+                      uri:
+                        "https://image.tmdb.org/t/p/original/" +
+                        movie.backdrop_path,
+                    }
+                  : {
+                      uri:
+                        "https://image.tmdb.org/t/p/w780/" +
+                        movie.backdrop_path,
+                    }
+              }
+              style={styles.image}
+            />
+            <Card.Divider style={{ marginTop: 20 }} />
+            <Text style={styles.text}>{movie.overview}</Text>
+          </Card>
+        </TouchableWithoutFeedback>
       );
     });
   }
@@ -66,7 +79,7 @@ export default function MovieList({ text }) {
       <Card>
         <Card.Title style={styles.text}>UPPPSSS</Card.Title>
         <Card.Image
-          source={require("../assets/movie-not-found.png")}
+          source={require("../../../assets/movie-not-found.png")}
           style={styles.errorImage}
         />
       </Card>
